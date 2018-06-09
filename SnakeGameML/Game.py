@@ -34,7 +34,6 @@ class Game():
         self._borderImageSurface = pygame.image.load(self.borderImage).convert()
         self._running = True
         #self.display_apple()
-        
 
     def on_event(self, event):
         if event.type == QUIT:
@@ -48,16 +47,17 @@ class Game():
         self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
-        
         for x in range(len(SnakeBody.body)):
             self._displaySurface.blit(self._snakeBodyImageSurface, (SnakeBody.body[x][0], SnakeBody.body[x][1]))
-       
-        
-        SnakeBody.body[0],SnakeBody.body[1],SnakeBody.body[2]=(self.thePlayer.headX,self.thePlayer.headY),SnakeBody.body[0],SnakeBody.body[1]
-        print(SnakeBody.body)
-        #for i in range(1,len(SnakeBody.body)):
-        #    SnakeBody.body[i]=SnakeBody.body[i-1]
-        #print(SnakeBody.body)
+
+        newBodyPos = []
+        newBodyPos.append((self.thePlayer.headX,self.thePlayer.headY))
+
+        for i in range(1, len(SnakeBody.body)):
+            newBodyPos.append(SnakeBody.body[i - 1])
+
+        SnakeBody.body = newBodyPos
+
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             # Not dead - not hit border
             self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
@@ -67,7 +67,6 @@ class Game():
                 self.apple.newLoc()
                 self.score+=1
                 self.thePlayer.eatApple()
-
         else:
             self._running = False
 
