@@ -7,7 +7,7 @@ import time
 import os
 
 class Game():
-    """description of class"""
+    """Runs the main game"""
     windowWidth = 800
     windowHeight = 600
     borderRes = (580, 580)

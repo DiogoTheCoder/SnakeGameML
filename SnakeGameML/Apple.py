@@ -2,7 +2,7 @@
 import random
 
 class Apple():
-    """description of class"""
+    """The food a snake eats, apparently"""
     x = 0
     y = 0
     appleImage = "apple.png"

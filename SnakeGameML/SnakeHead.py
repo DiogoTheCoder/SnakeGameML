@@ -1,7 +1,7 @@
 
 
 class SnakeHead:
-    """description of class"""
+    """Represents the head of the Snake"""
     headX = 100
     headY = 100
     headPos = "S"

@@ -1,7 +1,7 @@
 from SnakeHead import SnakeHead
 
 class SnakeBody():
-    """description of class"""
+    """Provides info on how long the snake is"""
     snakeImage = "snake.png"
     body = [(100,84), (100,68), (100, 52)]
 
