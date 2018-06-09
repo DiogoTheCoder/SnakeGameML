@@ -44,6 +44,10 @@ class Game():
 
     def on_render(self):
         self._displaySurface.fill((0, 0, 0))
+
+        font = pygame.font.SysFont("comicsansms", 20)
+        text = font.render("Score: " + str(self.score), True, (255, 255, 255))
+
         self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
@@ -71,6 +75,10 @@ class Game():
                 SnakeBody.body.append(SnakeBody.body[-1])
 
                 print(SnakeBody.body)
+
+            #self._displaySurface.blit(text, (300, 300))
+            self._displaySurface.blit(text,
+        (320 - text.get_width() // 2, 240 - text.get_height() // 2))
 
         else:
             self._running = False
