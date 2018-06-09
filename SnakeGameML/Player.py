@@ -2,7 +2,7 @@ class Player:
     """description of class"""
     x = 10
     y = 10
-    speed = 10
+    speed = 2
     headPos = "S"
     snakeImage = "snake.png"
 
