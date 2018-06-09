@@ -9,21 +9,26 @@ class Game():
     """description of class"""
     windowWidth = 800
     windowHeight = 600
+    borderRes = (580, 580)
     numOfPlayers = 0
     score = 0
+    borderImage = "border.png"
+
     def __init__(self):
         self._running = True
         self._displaySurface = None
         self._snakeImageSurface = None
+        self._appleImageSurface = None
+        self._borderImageSurface = None
         self.thePlayer = Player()
         self.apple = Apple()
 
     def on_init(self):
         pygame.init()
         self._displaySurface = pygame.display.set_mode((self.windowWidth, self.windowHeight), pygame.HWSURFACE)
-        print("TEST!")
-        print(os.getcwd())
         self._snakeImageSurface = pygame.image.load(Player.snakeImage).convert()
+        self._appleImageSurface = pygame.image.load(Apple.appleImage).convert()
+        self._borderImageSurface = pygame.image.load(self.borderImage).convert()
         self._running = True
         #self.display_apple()
         
@@ -36,22 +41,22 @@ class Game():
         pass
 
     def on_render(self):
-
-
         self._displaySurface.fill((0, 0, 0))
+        self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeImageSurface, (self.thePlayer.x, self.thePlayer.y))
-        self._displaySurface.blit(pygame.image.load(Apple.appleImage).convert(), (self.apple.x, self.apple.y))
-        print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.x, self.thePlayer.y)
-        if self.apple.x-self.thePlayer.x<=10 and self.apple.x-self.thePlayer.x>=-10 and self.apple.y-self.thePlayer.y<=10 and self.apple.y-self.thePlayer.y>=-10:
-            print("eaten")
-            self.apple.newLoc()
-            self.score+=1
-        pygame.display.flip()
 
-    def display_apple(self):
-        apple = Apple()
-        self._displaySurface.blit(pygame.image.load(Apple.appleImage).convert(), (apple.x, apple.y))
-        print(apple.x, apple.y)
+        if (self.thePlayer.x > 0 and self.thePlayer.x < self.borderRes[0]) and (self.thePlayer.y > 0 and self.thePlayer.y < self.borderRes[1]):
+            # Not dead - not hit border
+            self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
+            print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.x, self.thePlayer.y)
+            if self.apple.x-self.thePlayer.x<=10 and self.apple.x-self.thePlayer.x>=-10 and self.apple.y-self.thePlayer.y<=10 and self.apple.y-self.thePlayer.y>=-10:
+                print("eaten")
+                self.apple.newLoc()
+                self.score+=1
+
+        else:
+            self._running = False
+
         pygame.display.flip()
         
     def on_cleanup(self):
