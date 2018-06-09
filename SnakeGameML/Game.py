@@ -63,23 +63,27 @@ class Game():
         SnakeBody.body = newBodyPos
 
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
-            # Not dead - not hit border
-            self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
-            #print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.headX, self.thePlayer.headY)
-            if self.apple.x-self.thePlayer.headX<=10 and self.apple.x-self.thePlayer.headX>=-10 and self.apple.y-self.thePlayer.headY<=10 and self.apple.y-self.thePlayer.headY>=-10:
-                print("eaten")
-                self.apple.newLoc()
-                self.score+=1
+            for i in range(1,len(SnakeBody.body)):
+                print(self.thePlayer.headX,self.thePlayer.headY,i)
+                if (self.thePlayer.headX,self.thePlayer.headY)!=SnakeBody.body[i]:
+                    # Not dead - not hit border
+                    self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
+                    #print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.headX, self.thePlayer.headY)
+                    if self.apple.x-self.thePlayer.headX<=10 and self.apple.x-self.thePlayer.headX>=-10 and self.apple.y-self.thePlayer.headY<=10 and self.apple.y-self.thePlayer.headY>=-10:
+                        print("eaten")
+                        self.apple.newLoc()
+                        self.score+=1
 
-                # EAT APPLE - GROW
-                SnakeBody.body.append(SnakeBody.body[-1])
+                        # EAT APPLE - GROW
+                        SnakeBody.body.append(SnakeBody.body[-1])
 
-                print(SnakeBody.body)
+                        print(SnakeBody.body)
 
-            #self._displaySurface.blit(text, (300, 300))
-            self._displaySurface.blit(text,
-        (320 - text.get_width() // 2, 240 - text.get_height() // 2))
-
+                    #self._displaySurface.blit(text, (300, 300))
+                    self._displaySurface.blit(text,
+                    (320 - text.get_width() // 2, 240 - text.get_height() // 2))
+                else:
+                    self._running = False
         else:
             self._running = False
 
@@ -98,18 +102,22 @@ class Game():
             keys = pygame.key.get_pressed()
 
             if (keys[K_RIGHT]):
-                self.thePlayer.changeFacing("E")
+                if self.thePlayer.headPos != "W":
+                    self.thePlayer.changeFacing("E")
                 #self.thePlayer.moveRight()
 
             if (keys[K_LEFT]):
-                self.thePlayer.changeFacing("W")
+                if self.thePlayer.headPos != "E":
+                  self.thePlayer.changeFacing("W")
                 #self.thePlayer.moveLeft()
 
             if (keys[K_UP]):
-                self.thePlayer.changeFacing("N")
+                if self.thePlayer.headPos != "S":
+                  self.thePlayer.changeFacing("N")
 
             if (keys[K_DOWN]):
-                self.thePlayer.changeFacing("S")
+                if self.thePlayer.headPos != "N":
+                   self.thePlayer.changeFacing("S")
 
             if (keys[K_ESCAPE]):
                 self._running = False
