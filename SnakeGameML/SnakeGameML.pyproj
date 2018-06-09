@@ -24,6 +24,9 @@
     <Compile Include="Apple.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SnakeBot.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Game.py">
       <SubType>Code</SubType>
     </Compile>
