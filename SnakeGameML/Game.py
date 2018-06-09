@@ -48,9 +48,16 @@ class Game():
         self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
-        #for x in range(SnakeBody.length):
-        #    self._displaySurface.blit(self._snakeBodyImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
-
+        
+        for x in range(len(SnakeBody.body)):
+            self._displaySurface.blit(self._snakeBodyImageSurface, (SnakeBody.body[x][0], SnakeBody.body[x][1]))
+       
+        
+        SnakeBody.body[0],SnakeBody.body[1],SnakeBody.body[2]=(self.thePlayer.headX,self.thePlayer.headY),SnakeBody.body[0],SnakeBody.body[1]
+        print(SnakeBody.body)
+        #for i in range(1,len(SnakeBody.body)):
+        #    SnakeBody.body[i]=SnakeBody.body[i-1]
+        #print(SnakeBody.body)
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             # Not dead - not hit border
             self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
@@ -98,7 +105,7 @@ class Game():
             self.on_loop()
             self.on_render()
 
-            time.sleep(50.0 / 1000.0)
+            time.sleep(100.0 / 1000.0)
 
         self.on_cleanup()
 

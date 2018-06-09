@@ -1,13 +1,13 @@
-from SnakeBody import SnakeBody
+
 
 class SnakeHead:
     """description of class"""
-    headX = 10
-    headY = 10
+    headX = 100
+    headY = 100
     headPos = "S"
     snakeImage = "snake_head.png"
     speed = 10
-    body = SnakeBody()
+    #body = SnakeBody()
 
     def move(self):
         if self.headPos == "N":
@@ -25,6 +25,6 @@ class SnakeHead:
     def changeFacing(self, newPos):
         self.headPos = newPos
 
-    def eatApple(self):
-        # GROW!
-        self.body.length += 1
+    #def eatApple(self):
+       # GROW!
+       # self.body.length += 1
