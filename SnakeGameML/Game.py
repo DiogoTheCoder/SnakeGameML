@@ -66,7 +66,12 @@ class Game():
                 print("eaten")
                 self.apple.newLoc()
                 self.score+=1
-                self.thePlayer.eatApple()
+
+                # EAT APPLE - GROW
+                SnakeBody.body.append(SnakeBody.body[-1])
+
+                print(SnakeBody.body)
+
         else:
             self._running = False
 
