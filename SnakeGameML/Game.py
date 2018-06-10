@@ -44,8 +44,10 @@ class Game():
         pass
 
     def on_render(self):
+        self.renderToScreen()
+    
+    def renderToScreen(self):
         self._displaySurface.fill((0, 0, 0))
-
         font = pygame.font.SysFont("comicsansms", 20)
         text = font.render("Score: " + str(self.score), True, (255, 255, 255))
 
@@ -84,12 +86,25 @@ class Game():
                     self._displaySurface.blit(text,
                     (320 - text.get_width() // 2, 240 - text.get_height() // 2))
                 else:
-                    self._running = False
+                    print("DEAD - ATE ITSELF")
+                    # FOR AI
+                    self.thePlayer.headX = 100
+                    self.thePlayer.headY = 100
+                    self.thePlayer.headPos = "S"
+                    SnakeBody.body = [(100,84), (100,68), (100, 52)]
+                    self._running = True
+                    self.renderToScreen()
         else:
-            self._running = False
+            print("DEAD - HIT BORDER")
+            # FOR AI
+            self.thePlayer.headX = 100
+            self.thePlayer.headY = 100
+            self.thePlayer.headPos = "S"
+            SnakeBody.body = [(100,84), (100,68), (100, 52)]
+            self._running = True
+            self.renderToScreen()
 
         pygame.display.flip()
-        
     def on_cleanup(self):
         pygame.quit()
 
