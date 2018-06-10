@@ -14,6 +14,7 @@ class Game():
     borderRes = (580, 580)
     numOfPlayers = 0
     score = 0
+    scorelist = []
     borderImage = "border.png"
 
     def __init__(self):
@@ -92,6 +93,8 @@ class Game():
                     self.thePlayer.headY = 100
                     self.thePlayer.headPos = "S"
                     SnakeBody.body = [(100,84), (100,68), (100, 52)]
+                    scorelist.append(score)
+                    score=0
                     #self._running = True
                     #self.renderToScreen()
         else:
@@ -101,6 +104,8 @@ class Game():
             self.thePlayer.headY = 100
             self.thePlayer.headPos = "S"
             SnakeBody.body = [(100,84), (100,68), (100, 52)]
+            scorelist.append(score)
+            score=0
             #self._running = True
             #self.renderToScreen()
 
