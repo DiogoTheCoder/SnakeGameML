@@ -110,6 +110,7 @@ class Game():
             #self.renderToScreen()
 
         pygame.display.flip()
+
     def on_cleanup(self):
         pygame.quit()
 
@@ -124,9 +125,10 @@ class Game():
             keys = pygame.key.get_pressed()
        
             for seed, aiKeys in seedAndKeys:
-                print("Current Seed: " + str(seed))
+                print("Current Seed: " + str(seed) + " - " + str(len(aiKeys)) + " number of movements to make")
                 for aiKey in aiKeys:
                     self.changePlayerFacing(keys, aiKey)
+                    self.thePlayer.move()
                     self.on_loop()
                     self.on_render()
                     time.sleep(100/1000)

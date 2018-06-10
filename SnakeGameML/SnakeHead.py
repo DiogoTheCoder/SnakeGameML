@@ -1,5 +1,3 @@
-
-
 class SnakeHead:
     """Represents the head of the Snake"""
     headX = 100
