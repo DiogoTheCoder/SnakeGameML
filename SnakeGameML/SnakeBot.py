@@ -14,13 +14,20 @@ class SnakeBot:
                 randomPos = random.randint(1,4)
 
                 if randomPos == 1:
-                    keyToPress.append("R")
+                    if player.headPos != "W":
+                        keyToPress.append("R")
+
                 elif randomPos == 2:
-                    keyToPress.append("L")
+                    if player.headPos != "E":
+                        keyToPress.append("L")
+
                 elif randomPos == 3:
-                    keyToPress.append("UP")
+                    if player.headPos != "S":
+                        keyToPress.append("UP")
+
                 elif randomPos == 4:
-                    keyToPress.append("DOWN")
+                    if player.headPos != "N":
+                        keyToPress.append("DOWN")
                 else:
                     print("INCORRECT RANDOM VALUE")
 

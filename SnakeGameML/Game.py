@@ -92,8 +92,8 @@ class Game():
                     self.thePlayer.headY = 100
                     self.thePlayer.headPos = "S"
                     SnakeBody.body = [(100,84), (100,68), (100, 52)]
-                    self._running = True
-                    self.renderToScreen()
+                    #self._running = True
+                    #self.renderToScreen()
         else:
             print("DEAD - HIT BORDER")
             # FOR AI
@@ -101,8 +101,8 @@ class Game():
             self.thePlayer.headY = 100
             self.thePlayer.headPos = "S"
             SnakeBody.body = [(100,84), (100,68), (100, 52)]
-            self._running = True
-            self.renderToScreen()
+            #self._running = True
+            #self.renderToScreen()
 
         pygame.display.flip()
     def on_cleanup(self):
@@ -118,7 +118,7 @@ class Game():
             keys = pygame.key.get_pressed()
 
             keyAI = SnakeBot.randy(self.thePlayer)
-
+            print(keyAI)
             for key in keyAI:
                 self.changePlayerFacing(keys, key)
 
@@ -134,6 +134,7 @@ class Game():
         self.on_cleanup()
 
     def changePlayerFacing(self, keys, keyAIPressed):
+        #print(keyAIPressed)
         try:
             if (keys[K_RIGHT] or keyAIPressed == "R"):
                 if self.thePlayer.headPos != "W":
