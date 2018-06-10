@@ -93,8 +93,8 @@ class Game():
                     self.thePlayer.headY = 100
                     self.thePlayer.headPos = "S"
                     SnakeBody.body = [(100,84), (100,68), (100, 52)]
-                    scorelist.append(score)
-                    score=0
+                    self.scorelist.append(self.score)
+                    self.score=0
                     #self._running = True
                     #self.renderToScreen()
         else:
@@ -104,8 +104,8 @@ class Game():
             self.thePlayer.headY = 100
             self.thePlayer.headPos = "S"
             SnakeBody.body = [(100,84), (100,68), (100, 52)]
-            scorelist.append(score)
-            score=0
+            self.scorelist.append(self.score)
+            self.score=0
             #self._running = True
             #self.renderToScreen()
 
@@ -116,26 +116,27 @@ class Game():
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
-
+        keyAI = SnakeBot.randy(self.thePlayer)
+        print(keyAI)
         while (self._running):
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
-
-            keyAI = SnakeBot.randy(self.thePlayer)
-            print(keyAI)
+       
             for key in keyAI:
+                self.on_loop()
+                self.on_render()
+                time.sleep(100/1000)
                 self.changePlayerFacing(keys, key)
 
 
             keyAIPressed = "None"
             self.changePlayerFacing(keys, keyAIPressed)
 
-            self.on_loop()
-            self.on_render()
             
-            time.sleep(100.0 / 1000.0)
-
+            
+            
+        
         self.on_cleanup()
 
     def changePlayerFacing(self, keys, keyAIPressed):
@@ -151,11 +152,11 @@ class Game():
                     self.thePlayer.changeFacing("W")
                 #self.thePlayer.moveLeft()
 
-            if (keys[K_UP] or keyAIPressed == "UP"):
+            if (keys[K_UP] or keyAIPressed == "U"):
                 if self.thePlayer.headPos != "S":
                     self.thePlayer.changeFacing("N")
 
-            if (keys[K_DOWN] or keyAIPressed == "DOWN"):
+            if (keys[K_DOWN] or keyAIPressed == "D"):
                 if self.thePlayer.headPos != "N":
                     self.thePlayer.changeFacing("S")
 

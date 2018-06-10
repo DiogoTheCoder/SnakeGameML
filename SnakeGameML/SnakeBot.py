@@ -7,8 +7,9 @@ class SnakeBot:
     
     #movements 25% per direction
     def randy(player):
-        for i in range(20):
+        for i in range(1,20):
             random.seed( i )
+            
             keyToPress = []
             for j in range(50):
                 randomPos = random.randint(1,4)
@@ -23,15 +24,16 @@ class SnakeBot:
 
                 elif randomPos == 3:
                     if player.headPos != "S":
-                        keyToPress.append("UP")
+                        keyToPress.append("U")
 
                 elif randomPos == 4:
                     if player.headPos != "N":
-                        keyToPress.append("DOWN")
+                        keyToPress.append("D")
                 else:
                     print("INCORRECT RANDOM VALUE")
-
+            
             return keyToPress
+            
             
 #time before next move
 
