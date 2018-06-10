@@ -11,5 +11,6 @@ class Apple():
         self.newLoc()
 
     def newLoc(self):
+        random.seed( 100 )
         self.x = random.randint(0, 600 - 20)
         self.y = random.randint(0, 600 - 20)
