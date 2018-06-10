@@ -7,7 +7,7 @@ class SnakeBot:
     
     #movements 25% per direction
     def randy(player):
-        for i in range(1):
+        for i in range(20):
             random.seed( i )
             keyToPress = []
             for j in range(50):
