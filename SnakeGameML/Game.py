@@ -1,6 +1,7 @@
 from Apple import Apple
 from SnakeHead import SnakeHead
 from SnakeBody import SnakeBody
+from SnakeBot import SnakeBot
 from pygame.locals import *
 import pygame
 import time
@@ -64,20 +65,20 @@ class Game():
 
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
-                print(self.thePlayer.headX,self.thePlayer.headY,i)
+                #print(self.thePlayer.headX,self.thePlayer.headY,i)
                 if (self.thePlayer.headX,self.thePlayer.headY)!=SnakeBody.body[i]:
                     # Not dead - not hit border
                     self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
                     #print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.headX, self.thePlayer.headY)
                     if self.apple.x-self.thePlayer.headX<=10 and self.apple.x-self.thePlayer.headX>=-10 and self.apple.y-self.thePlayer.headY<=10 and self.apple.y-self.thePlayer.headY>=-10:
-                        print("eaten")
+                        #print("eaten")
                         self.apple.newLoc()
                         self.score+=1
 
                         # EAT APPLE - GROW
                         SnakeBody.body.append(SnakeBody.body[-1])
 
-                        print(SnakeBody.body)
+                        #print(SnakeBody.body)
 
                     #self._displaySurface.blit(text, (300, 300))
                     self._displaySurface.blit(text,
@@ -101,31 +102,44 @@ class Game():
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
 
-            if (keys[K_RIGHT]):
-                if self.thePlayer.headPos != "W":
-                    self.thePlayer.changeFacing("E")
-                #self.thePlayer.moveRight()
+            keyAI = SnakeBot.randy(self.thePlayer)
 
-            if (keys[K_LEFT]):
-                if self.thePlayer.headPos != "E":
-                  self.thePlayer.changeFacing("W")
-                #self.thePlayer.moveLeft()
+            for key in keyAI:
+                self.changePlayerFacing(keys, key)
 
-            if (keys[K_UP]):
-                if self.thePlayer.headPos != "S":
-                  self.thePlayer.changeFacing("N")
 
-            if (keys[K_DOWN]):
-                if self.thePlayer.headPos != "N":
-                   self.thePlayer.changeFacing("S")
-
-            if (keys[K_ESCAPE]):
-                self._running = False
+            keyAIPressed = "None"
+            self.changePlayerFacing(keys, keyAIPressed)
 
             self.on_loop()
             self.on_render()
-
+            
             time.sleep(100.0 / 1000.0)
 
         self.on_cleanup()
 
+    def changePlayerFacing(self, keys, keyAIPressed):
+        try:
+            if (keys[K_RIGHT] or keyAIPressed == "R"):
+                if self.thePlayer.headPos != "W":
+                    self.thePlayer.changeFacing("E")
+                #self.thePlayer.moveRight()
+
+            if (keys[K_LEFT] or keyAIPressed == "L"):
+                if self.thePlayer.headPos != "E":
+                    self.thePlayer.changeFacing("W")
+                #self.thePlayer.moveLeft()
+
+            if (keys[K_UP] or keyAIPressed == "UP"):
+                if self.thePlayer.headPos != "S":
+                    self.thePlayer.changeFacing("N")
+
+            if (keys[K_DOWN] or keyAIPressed == "DOWN"):
+                if self.thePlayer.headPos != "N":
+                    self.thePlayer.changeFacing("S")
+
+            if (keys[K_ESCAPE]):
+                self._running = False
+
+        except TypeError:
+            print("TypeError!")

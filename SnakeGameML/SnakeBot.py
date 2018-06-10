@@ -1,23 +1,30 @@
 import random
 import sys
-class SnakeBot(object):
+from SnakeHead import SnakeHead
+
+class SnakeBot:
     """description of class"""
     
-    for i in range(20):
-        randy(i)
     #movements 25% per direction
-    def randy(x):
-        random.seed( x )
-        while true:
-            if random.randint(1,4) == 1:
-                self.thePlayer.changeFacing("E")
-            elif random.randint(1,4) == 2:
-                self.thePlayer.changeFacing("W")
-            elif random.randint(1,4) == 3:
-                self.thePlayer.changeFacing("N")
-            else:
-                self.thePlayer.changeFacing("S")
-            
+    def randy(player):
+        for i in range(1):
+            random.seed( i )
+            keyToPress = []
+            for j in range(50):
+                randomPos = random.randint(1,4)
 
-    #time before next move
+                if randomPos == 1:
+                    keyToPress.append("R")
+                elif randomPos == 2:
+                    keyToPress.append("L")
+                elif randomPos == 3:
+                    keyToPress.append("UP")
+                elif randomPos == 4:
+                    keyToPress.append("DOWN")
+                else:
+                    print("INCORRECT RANDOM VALUE")
+
+            return keyToPress
+            
+#time before next move
 
