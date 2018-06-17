@@ -110,34 +110,40 @@ class Game():
             #self.renderToScreen()
 
         pygame.display.flip()
+
     def on_cleanup(self):
         pygame.quit()
 
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
-        
-        keyAI = SnakeBot.randy(self.thePlayer)
-        print(keyAI)
+        seedAndKeys = SnakeBot.randy(self.thePlayer)
+
         while (self._running):
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
        
-            for key in keyAI:
-                self.on_loop()
-                self.on_render()
-                time.sleep(100/1000)
-                self.changePlayerFacing(keys, key)
+            for seed, aiKeys in seedAndKeys:
+                print("Current Seed: " + str(seed) + " - " + str(len(aiKeys)) + " number of movements to make")
+                for aiKey in aiKeys:
+                    self.changePlayerFacing(keys, aiKey)
+                    self.thePlayer.move()
+                    self.on_loop()
+                    self.on_render()
+                    time.sleep(100/1000)
+
+            break # Stop after AI
+            #for key in keyAI:
+            #    self.on_loop()
+            #    self.on_render()
+            #    time.sleep(100/1000)
+            #    self.changePlayerFacing(keys, key)
 
 
             keyAIPressed = "None"
             self.changePlayerFacing(keys, keyAIPressed)
 
-            
-            
-            
-        
         self.on_cleanup()
 
     def changePlayerFacing(self, keys, keyAIPressed):
