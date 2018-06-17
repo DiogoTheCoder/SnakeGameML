@@ -1,1 +1,27 @@
-
+SnakeGameML,,
+,,
+,,
+,,Seed No.
+,,Time alive
+,,Score
+,,
+,,apple x
+,,apple y
+,,head x
+,,head y
+,,body x
+,,body y
+,,dead or alive
+,,No. of moves taken to apple/dead
+,,movement sequence
+"1)The AI needs to collect the image pattern(body vs map), identify apple location, identify head location.                  2) It then needs to run iterations from head to apple, recording move sequence to apple, rumber of moves to apple/death.                                              3)Intepret inputs then output values in a range of 100.   ",,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,

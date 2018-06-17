@@ -116,6 +116,7 @@ class Game():
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
+        
         keyAI = SnakeBot.randy(self.thePlayer)
         print(keyAI)
         while (self._running):
