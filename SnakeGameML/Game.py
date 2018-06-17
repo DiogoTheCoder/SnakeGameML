@@ -118,6 +118,7 @@ class Game():
         if self.on_init() == False:
             self._running = False
         seedAndKeys = SnakeBot.randy(self.thePlayer)
+        view = SnakeBot.snakeView(self.apple, self.thePlayer, SnakeBody.body)
 
         while (self._running):
             pygame.event.pump()
