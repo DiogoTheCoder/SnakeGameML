@@ -5,37 +5,6 @@ from SnakeHead import SnakeHead
 
 class SnakeBot:
     """description of class"""
-    #add snake view
-    #movements 25% per direction
-    def randy(player):
-        seed = []
-        for i in range(1,20):
-            random.seed( i )
-            keyToPress = []
-            for j in range(50):
-                randomPos = random.randint(1,4)
-
-                if randomPos == 1:
-                    if player.headPos != "W":
-                        keyToPress.append("R")
-
-                elif randomPos == 2:
-                    if player.headPos != "E":
-                        keyToPress.append("L")
-
-                elif randomPos == 3:
-                    if player.headPos != "S":
-                        keyToPress.append("U")
-
-                elif randomPos == 4:
-                    if player.headPos != "N":
-                        keyToPress.append("D")
-                else:
-                    print("INCORRECT RANDOM VALUE")
-
-            seed.append([i, keyToPress])
-
-        return seed
 
     def snakeView(theapple, thehead, thebody):
         #apple
@@ -52,13 +21,20 @@ class SnakeBot:
 
         #comparing head to border
         # Heading Leftwards/Westwards
+
+
+        #N += (thehead.headY/300) *  0.3
+        #S += (1 - thehead.headY/300) * 0.3
+        #W += (thehead.headX/300) *  0.3
+        #E += (1 - thehead.headX/300) * 0.3
+
         if thehead.headX == 10:
             W -= 1.0
         # Heading Rightwards/Eastwards
-        if thehead.headX == 570:
+        if thehead.headX == 290:
             E -= 1.0
         # Heading Southwards
-        if  thehead.headY == 570:
+        if  thehead.headY == 290:
             S -= 1.0
         # Heading Northwards
         if thehead.headY == 10:
@@ -78,6 +54,7 @@ class SnakeBot:
             #needs to move up for apple
             N += 0.2
 
+        #dont eat yourself
 
 
         outputList = {'U':N,'D':S,'R':E,'L':W}

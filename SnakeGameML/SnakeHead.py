@@ -1,7 +1,7 @@
 class SnakeHead:
     """Represents the head of the Snake"""
-    headX = 100
-    headY = 100
+    headX = 150
+    headY = 150
     headPos = "S"
     snakeImage = "snake_head.png"
     speed = 10

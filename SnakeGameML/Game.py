@@ -10,13 +10,14 @@ import csv
 
 class Game():
     """Runs the main game"""
-    windowWidth = 800
-    windowHeight = 600
-    borderRes = (580, 580)
+    windowWidth = 310
+    windowHeight = 310
+
+    borderRes = (300, 300)
     numOfPlayers = 0
     score = 0
     scorelist = []
-    borderImage = "border.png"
+    #borderImage = "border.png"
 
     def __init__(self):
         self._running = True
@@ -24,7 +25,7 @@ class Game():
         self._snakeHeadImageSurface = None
         self._snakeBodyImageSurface = None
         self._appleImageSurface = None
-        self._borderImageSurface = None
+        #self._borderImageSurface = None
         self.thePlayer = SnakeHead()
         self.apple = Apple()
 
@@ -34,7 +35,7 @@ class Game():
         self._snakeHeadImageSurface = pygame.image.load(SnakeHead.snakeImage).convert()
         self._snakeBodyImageSurface = pygame.image.load(SnakeBody.snakeImage).convert()
         self._appleImageSurface = pygame.image.load(Apple.appleImage).convert()
-        self._borderImageSurface = pygame.image.load(self.borderImage).convert()
+        #self._borderImageSurface = pygame.image.load(self.borderImage).convert()
         self._running = True
         #self.display_apple()
 
@@ -53,7 +54,7 @@ class Game():
         font = pygame.font.SysFont("comicsansms", 20)
         text = font.render("Score: " + str(self.score), True, (255, 255, 255))
 
-        self._displaySurface.blit(self._borderImageSurface, (0, 0))
+        #self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
         for x in range(len(SnakeBody.body)):
@@ -70,7 +71,7 @@ class Game():
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
                 #print(self.thePlayer.headX,self.thePlayer.headY,i)
-                print(SnakeBody.body)
+                
                 if (self.thePlayer.headX,self.thePlayer.headY)!=SnakeBody.body[i]:
                     # Not dead - not hit border
                     self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
@@ -86,7 +87,7 @@ class Game():
 
                     #self._displaySurface.blit(text, (300, 300))
                     self._displaySurface.blit(text,
-                    (320 - text.get_width() // 2, 240 - text.get_height() // 2))
+                    (100 - text.get_width() // 2, 100 - text.get_height() // 2))
                 else:
                     print("DEAD - ATE ITSELF")
                     # FOR AI
@@ -106,8 +107,8 @@ class Game():
         else:
             print("DEAD - HIT BORDER")
             # FOR AI
-            self.thePlayer.headX = 100
-            self.thePlayer.headY = 100
+            self.thePlayer.headX = 150
+            self.thePlayer.headY = 150
             self.thePlayer.headPos = "S"
             SnakeBody.body = [(100,84), (100,68), (100, 52)]
 
