@@ -36,6 +36,7 @@ class SnakeBot:
             seed.append([i, keyToPress])
 
         return seed
+
     def snakeView(theapple, thehead, thebody):
         #apple
         #border
@@ -46,20 +47,22 @@ class SnakeBot:
         E = 0
         W = 0
 
-
         appleView = (theapple.x,theapple.y)
         headLoc = (thehead.headX,thehead.headY)
 
-
         #comparing head to border
-        if (thehead.headX / 580) < 0.1:
-            E += 0.2
-        if (thehead.headX / 580) > 0.9:
-            W += 0.2    
-        if (thehead.headY / 580) > 0.9:
-            N += 0.2
-        if (thehead.headY / 580) < 0.1:
-            S += 0.2
+        # Heading Leftwards/Westwards
+        if thehead.headX == 10:
+            W -= 1.0
+        # Heading Rightwards/Eastwards
+        if thehead.headX == 570:
+            E -= 1.0
+        # Heading Southwards
+        if  thehead.headY == 570:
+            S -= 1.0
+        # Heading Northwards
+        if thehead.headY == 10:
+            N -= 1.0
 
         #comparing head to apple
         if headLoc[0] < appleView[0]:
@@ -75,19 +78,23 @@ class SnakeBot:
             #needs to move up for apple
             N += 0.2
 
+
+
         outputList = {'U':N,'D':S,'R':E,'L':W}
         outputList = sorted(outputList.items(), key=lambda x: x[1])
 
-        if thehead.headPos == "N" and outputList.keys()[-1] == "S":
-            return outputList.keys()[-2]
-        if thehead.headPos == "S" and outputList.keys()[-1] == "N":
-            return outputList.keys()[-2]
-        if thehead.headPos == "E" and outputList.keys()[-1] == "W":
-            return outputList.keys()[-2]
-        if thehead.headPos == "W" and outputList.keys()[-1] == "E":
-            return outputList.keys()[-2]
+        print(outputList)
+
+        if thehead.headPos == "N" and outputList[-1][0] == "D":
+            return outputList[-2][0]
+        if thehead.headPos == "S" and outputList[-1][0] == "U":
+            return outputList[-2][0]
+        if thehead.headPos == "E" and outputList[-1][0] == "L":
+            return outputList[-2][0]
+        if thehead.headPos == "W" and outputList[-1][0] == "R":
+            return outputList[-2][0]
         else:
-            return outputList.keys()[-1]
+            return outputList[-1][0]
         #comparing head to body
 
             

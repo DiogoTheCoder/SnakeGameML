@@ -6,6 +6,7 @@ from pygame.locals import *
 import pygame
 import time
 import os
+import csv
 
 class Game():
     """Runs the main game"""
@@ -69,13 +70,13 @@ class Game():
         if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
                 #print(self.thePlayer.headX,self.thePlayer.headY,i)
+                print(SnakeBody.body)
                 if (self.thePlayer.headX,self.thePlayer.headY)!=SnakeBody.body[i]:
                     # Not dead - not hit border
                     self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
                     #print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.headX, self.thePlayer.headY)
                     if self.apple.x-self.thePlayer.headX<=10 and self.apple.x-self.thePlayer.headX>=-10 and self.apple.y-self.thePlayer.headY<=10 and self.apple.y-self.thePlayer.headY>=-10:
-                        #print("eaten")
-                        self.apple.newLoc()
+                        self.apple.newLoc(self.thePlayer, SnakeBody.body)
                         self.score+=1
 
                         # EAT APPLE - GROW
@@ -93,8 +94,13 @@ class Game():
                     self.thePlayer.headY = 100
                     self.thePlayer.headPos = "S"
                     SnakeBody.body = [(100,84), (100,68), (100, 52)]
+                    
+                    with open("scores.csv", 'a+') as scoreFile:
+                        scoreFile.write(str(self.score) + "\n")
+
                     self.scorelist.append(self.score)
                     self.score=0
+                    break
                     #self._running = True
                     #self.renderToScreen()
         else:
@@ -104,6 +110,10 @@ class Game():
             self.thePlayer.headY = 100
             self.thePlayer.headPos = "S"
             SnakeBody.body = [(100,84), (100,68), (100, 52)]
+
+            with open("scores.csv", 'a+') as scoreFile:
+                scoreFile.write(str(self.score) + "\n")
+
             self.scorelist.append(self.score)
             self.score=0
             #self._running = True
@@ -117,33 +127,23 @@ class Game():
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
-        seedAndKeys = SnakeBot.randy(self.thePlayer)
-        view = SnakeBot.snakeView(self.apple, self.thePlayer, SnakeBody.body)
+        #seedAndKeys = SnakeBot.randy(self.thePlayer)
 
         while (self._running):
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
-       
-            for seed, aiKeys in seedAndKeys:
-                print("Current Seed: " + str(seed) + " - " + str(len(aiKeys)) + " number of movements to make")
-                for aiKey in aiKeys:
-                    self.changePlayerFacing(keys, aiKey)
-                    self.thePlayer.move()
-                    self.on_loop()
-                    self.on_render()
-                    time.sleep(100/1000)
+            view = SnakeBot.snakeView(self.apple, self.thePlayer, SnakeBody.body)
 
-            break # Stop after AI
-            #for key in keyAI:
-            #    self.on_loop()
-            #    self.on_render()
-            #    time.sleep(100/1000)
-            #    self.changePlayerFacing(keys, key)
+            print("Go: " + view)
 
-
-            keyAIPressed = "None"
-            self.changePlayerFacing(keys, keyAIPressed)
+            self.on_loop()
+            self.on_render()
+            time.sleep(1/1000)
+            self.changePlayerFacing(keys, view)
+            
+                
+            #self.changePlayerFacing(keys, keyAIPressed)
 
         self.on_cleanup()
 
