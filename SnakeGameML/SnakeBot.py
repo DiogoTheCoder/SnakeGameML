@@ -2,6 +2,8 @@ import random, sys, numpy, math
 from SnakeHead import SnakeHead
 import Game
 
+brandonsBiasP = 0.5
+
 def snakeView(theapple, thehead, thebody):
     #apple
     #border
@@ -145,8 +147,6 @@ def calculateDirectionAngle(suggestedDirection, apple, head, body):
     b = b_vector / numpy.linalg.norm(b_vector)
 
     direction = math.atan2(a[0] * b[1] - a[1] * b[0], a[0] * b[0] + a[1] * b[1]) / math.pi
-
-    brandonsBiasP = 0.5
 
     # North-East Quadrant
     if direction >= 0 and direction < 0.5:

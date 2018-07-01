@@ -89,7 +89,7 @@ class Game():
                     self._displaySurface.blit(text,
                     (100 - text.get_width() // 2, 100 - text.get_height() // 2))
                 else:
-                    print("DEAD - ATE ITSELF")
+                    print("DEAD - ATE ITSELF    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.brandonsBiasP))
                     with open("death_last_moves.csv", 'a+') as lastMovesFile:
                         lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
                         lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
@@ -108,7 +108,7 @@ class Game():
                     #self._running = True
                     #self.renderToScreen()
         else:
-            print("DEAD - HIT BORDER")
+            print("DEAD - HIT BORDER    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.brandonsBiasP))
             with open("death_last_moves.csv", 'a+') as lastMovesFile:
                 lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
                 lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
