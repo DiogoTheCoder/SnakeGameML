@@ -73,21 +73,22 @@ def snakeView(theapple, thehead, thebody):
 def snakeView2(theapple, thehead, thebody):
     suggestedDirection = [1, 1, 1, 1] # N, S, E, W
     headLoc = (thehead.headX,thehead.headY)
-    #appleView = (theapple.x,theapple.y)
+    appleView = (theapple.x,theapple.y)
+
     if thehead.headPos == "N":
         suggestedDirection[1] = 0
-        obsticle(suggestedDirection, thebody, thehead)
+        calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "S":
         suggestedDirection[0] = 0
-        obsticle(suggestedDirection, thebody, thehead)
+        calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "E":
         suggestedDirection[3] = 0
-        obsticle(suggestedDirection, thebody, thehead)
+        calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "W":
         suggestedDirection[2] = 0
-        obsticle(suggestedDirection, thebody, thehead)
+        calculateWeights(suggestedDirection, theapple, thebody, thehead)
 
-    print(calculateDirectionAngle(theapple, thehead, thebody))
+    #print(calculateDirectionAngle(theapple, thehead, thebody))
 
     if suggestedDirection.index(max(suggestedDirection)) == 0:
         return "U"
@@ -123,15 +124,17 @@ def bodyCheck(suggestedDirection, thebody, thehead):
             suggestedDirection[1] = 0
     return suggestedDirection
          
-def obsticle(suggestedDirection, thebody, thehead):
+def calculateWeights(suggestedDirection, theapple, thebody, thehead):
     suggestedDirection = wallCheck(suggestedDirection, thehead)
     suggestedDirection = bodyCheck(suggestedDirection, thebody, thehead)
+    suggestedDirection = calculateDirectionAngle(suggestedDirection, theapple, thehead, thebody)
     return suggestedDirection
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-def calculateDirectionAngle(apple, head, body):
+def calculateDirectionAngle(suggestedDirection, apple, head, body):
+    # Directions = N, S, E, W
     snake = [[head.headX, head.headY], [body[0][0], body[0][1]]]
     a_vector = numpy.array(snake[0]) - numpy.array(snake[1])
     a = a_vector / numpy.linalg.norm(a_vector)
@@ -140,4 +143,6 @@ def calculateDirectionAngle(apple, head, body):
     b_vector = numpy.array(apple) - numpy.array(snake[0])
     b = b_vector / numpy.linalg.norm(b_vector)
 
-    return math.atan2(a[0] * b[1] - a[1] * b[0], a[0] * b[0] + a[1] * b[1]) / math.pi
+    direction = math.atan2(a[0] * b[1] - a[1] * b[0], a[0] * b[0] + a[1] * b[1]) / math.pi
+
+    return suggestedDirection
