@@ -1,10 +1,5 @@
-import random
-import sys
+import random, sys, numpy, math
 from SnakeHead import SnakeHead
-
-
-
-"""description of class"""
 
 def snakeView(theapple, thehead, thebody):
     #apple
@@ -92,7 +87,7 @@ def snakeView2(theapple, thehead, thebody):
         suggestedDirection[2] = 0
         obsticle(suggestedDirection, thebody, thehead)
 
-    print(suggestedDirection.index(max(suggestedDirection)))
+    print(calculateDirectionAngle(theapple, thehead, thebody))
 
     if suggestedDirection.index(max(suggestedDirection)) == 0:
         return "U"
@@ -131,6 +126,18 @@ def bodyCheck(suggestedDirection, thebody, thehead):
 def obsticle(suggestedDirection, thebody, thehead):
     suggestedDirection = wallCheck(suggestedDirection, thehead)
     suggestedDirection = bodyCheck(suggestedDirection, thebody, thehead)
-    return suggestedDirection       
-#time before next move
+    return suggestedDirection
 
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+def calculateDirectionAngle(apple, head, body):
+    snake = [[head.headX, head.headY], [body[0][0], body[0][1]]]
+    a_vector = numpy.array(snake[0]) - numpy.array(snake[1])
+    a = a_vector / numpy.linalg.norm(a_vector)
+
+    apple = [apple.x, apple.y]
+    b_vector = numpy.array(apple) - numpy.array(snake[0])
+    b = b_vector / numpy.linalg.norm(b_vector)
+
+    return math.atan2(a[0] * b[1] - a[1] * b[0], a[0] * b[0] + a[1] * b[1]) / math.pi
