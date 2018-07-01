@@ -167,5 +167,4 @@ def calculateDirectionAngle(suggestedDirection, apple, head, body):
         suggestedDirection[0] += (1 + (direction / 0.5)) * brandonsBiasP
         suggestedDirection[3] += -(direction / 0.5) * brandonsBiasP
 
-    print(str(direction), suggestedDirection)
     return suggestedDirection

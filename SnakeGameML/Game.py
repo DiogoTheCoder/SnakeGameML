@@ -90,6 +90,8 @@ class Game():
                     (100 - text.get_width() // 2, 100 - text.get_height() // 2))
                 else:
                     print("DEAD - ATE ITSELF")
+                    with open("death_last_moves.csv", 'a+') as lastMovesFile:
+                        lastMovesFile.write(';'.join((str(self.thePlayer.headX), str(self.thePlayer.headY), str(self.thePlayer.headPos))) + "\n")
                     # FOR AI
                     self.thePlayer.headX = 100
                     self.thePlayer.headY = 100
@@ -106,6 +108,8 @@ class Game():
                     #self.renderToScreen()
         else:
             print("DEAD - HIT BORDER")
+            with open("death_last_moves.csv", 'a+') as lastMovesFile:
+                lastMovesFile.write(';'.join((str(self.thePlayer.headX), str(self.thePlayer.headY), str(self.thePlayer.headPos))) + "\n")
             # FOR AI
             self.thePlayer.headX = 150
             self.thePlayer.headY = 150
