@@ -7,6 +7,7 @@ class SnakeHead:
     speed = 10
     numOfMoves = 0
     lastSuggestedMove = []
+    deathCount = 0
     #body = SnakeBody()
 
     def move(self):
