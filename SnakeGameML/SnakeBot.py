@@ -92,6 +92,7 @@ def snakeView2(theapple, thehead, thebody):
 
 
     thehead.lastSuggestedMove = suggestedDirection
+    print(brandonsBiasP)
 
     if suggestedDirection.index(max(suggestedDirection)) == 0:
         return "U"

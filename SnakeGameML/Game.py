@@ -19,13 +19,7 @@ class Game():
     scorelist = []
     #borderImage = "border.png"
 
-    runs = 0
-    runsLimit = 1
-    biasIteration = 0.1
-    biasLimit = 0.9
-
     def __init__(self):
-
         self._running = True
         self._displaySurface = None
         self._snakeHeadImageSurface = None
@@ -99,6 +93,7 @@ class Game():
                     with open("death_last_moves.csv", 'a+') as lastMovesFile:
                         lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
                         lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+                    self.thePlayer.deathCount += 1
                     # FOR AI
                     self.thePlayer.headX = 100
                     self.thePlayer.headY = 100
@@ -110,7 +105,6 @@ class Game():
 
                     self.scorelist.append(self.score)
                     self.score=0
-                    Game.runs += 1
                     break
                     #self._running = True
                     #self.renderToScreen()
@@ -119,6 +113,7 @@ class Game():
             with open("death_last_moves.csv", 'a+') as lastMovesFile:
                 lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
                 lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+            self.thePlayer.deathCount += 1
             # FOR AI
             self.thePlayer.headX = 150
             self.thePlayer.headY = 150
@@ -130,8 +125,6 @@ class Game():
 
             self.scorelist.append(self.score)
             self.score=0
-            Game.runs += 1
-
             #self._running = True
             #self.renderToScreen()
 
@@ -141,7 +134,7 @@ class Game():
         pygame.quit()
 
     def on_execute(self):
-        if self.on_init() == False:
+        if self.on_init() == False or self.thePlayer.deathCount >= 1:
             self._running = False
         #seedAndKeys = SnakeBot.randy(self.thePlayer)
 
@@ -156,30 +149,26 @@ class Game():
         #    time.sleep(10/1000)
         #    self.changePlayerFacing(keys, view)
 
-        while (self._running):
-            if Game.runs == Game.runsLimit:
-                Game.runs = 0
-                print("increase bias")
-                SnakeBot.brandonsBiasP += Game.biasIteration
-                if SnakeBot.brandonsBiasP == Game.biasLimit:
-                    self._running = False
-                    break
-            pygame.event.pump()
-            self.thePlayer.move()
-            keys = pygame.key.get_pressed()
-            view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
-            self.thePlayer.numOfMoves += 1
+        for x in range(10):
+            while (self.thePlayer.deathCount < 9 and self._running):
+                pygame.event.pump()
+                self.thePlayer.move()
+                keys = pygame.key.get_pressed()
+                view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
+                self.thePlayer.numOfMoves += 1
 
-            self.on_loop()
-            self.on_render()
-            time.sleep(10/1000)
-            self.changePlayerFacing(keys, view)
-        
+                self.on_loop()
+                self.on_render()
+                time.sleep(10/1000)
+                self.changePlayerFacing(keys, view)
             
+            SnakeBot.brandonsBiasP -= 0.1
+            self.thePlayer.deathCount = 0
                 
             #self.changeplayerfacing(keys, keyaipressed)
 
-        self.on_cleanup()
+        if self._running == False:
+            self.on_cleanup()
 
     def changePlayerFacing(self, keys, keyAIPressed):
         #print(keyAIPressed)
