@@ -19,7 +19,13 @@ class Game():
     scorelist = []
     #borderImage = "border.png"
 
+    runs = 0
+    runsLimit = 1
+    biasIteration = 0.1
+    biasLimit = 0.9
+
     def __init__(self):
+
         self._running = True
         self._displaySurface = None
         self._snakeHeadImageSurface = None
@@ -104,6 +110,7 @@ class Game():
 
                     self.scorelist.append(self.score)
                     self.score=0
+                    Game.runs += 1
                     break
                     #self._running = True
                     #self.renderToScreen()
@@ -123,6 +130,8 @@ class Game():
 
             self.scorelist.append(self.score)
             self.score=0
+            Game.runs += 1
+
             #self._running = True
             #self.renderToScreen()
 
@@ -148,6 +157,13 @@ class Game():
         #    self.changePlayerFacing(keys, view)
 
         while (self._running):
+            if Game.runs == Game.runsLimit:
+                Game.runs = 0
+                print("increase bias")
+                SnakeBot.brandonsBiasP += Game.biasIteration
+                if SnakeBot.brandonsBiasP == Game.biasLimit:
+                    self._running = False
+                    break
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
@@ -158,6 +174,7 @@ class Game():
             self.on_render()
             time.sleep(10/1000)
             self.changePlayerFacing(keys, view)
+        
             
                 
             #self.changeplayerfacing(keys, keyaipressed)
