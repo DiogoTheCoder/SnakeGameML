@@ -5,6 +5,8 @@ class SnakeHead:
     headPos = "S"
     snakeImage = "snake_head.png"
     speed = 10
+    numOfMoves = 0
+    lastSuggestedMove = []
     #body = SnakeBody()
 
     def move(self):

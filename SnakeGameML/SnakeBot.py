@@ -71,24 +71,25 @@ def snakeView(theapple, thehead, thebody):
 
 
 def snakeView2(theapple, thehead, thebody):
-    suggestedDirection = [1, 1, 1, 1] # N, S, E, W
+    suggestedDirection = [1, 1, 1, 1]
     headLoc = (thehead.headX,thehead.headY)
     appleView = (theapple.x,theapple.y)
 
     if thehead.headPos == "N":
         suggestedDirection[1] = 0
-        calculateWeights(suggestedDirection, theapple, thebody, thehead)
+        suggestedDirection = calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "S":
         suggestedDirection[0] = 0
-        calculateWeights(suggestedDirection, theapple, thebody, thehead)
+        suggestedDirection = calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "E":
         suggestedDirection[3] = 0
-        calculateWeights(suggestedDirection, theapple, thebody, thehead)
+        suggestedDirection = calculateWeights(suggestedDirection, theapple, thebody, thehead)
     if thehead.headPos == "W":
         suggestedDirection[2] = 0
-        calculateWeights(suggestedDirection, theapple, thebody, thehead)
+        suggestedDirection = calculateWeights(suggestedDirection, theapple, thebody, thehead)
 
-    #print(calculateDirectionAngle(theapple, thehead, thebody))
+
+    thehead.lastSuggestedMove = suggestedDirection
 
     if suggestedDirection.index(max(suggestedDirection)) == 0:
         return "U"

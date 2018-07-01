@@ -91,7 +91,8 @@ class Game():
                 else:
                     print("DEAD - ATE ITSELF")
                     with open("death_last_moves.csv", 'a+') as lastMovesFile:
-                        lastMovesFile.write(';'.join((str(self.thePlayer.headX), str(self.thePlayer.headY), str(self.thePlayer.headPos))) + "\n")
+                        lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
+                        lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
                     # FOR AI
                     self.thePlayer.headX = 100
                     self.thePlayer.headY = 100
@@ -109,7 +110,8 @@ class Game():
         else:
             print("DEAD - HIT BORDER")
             with open("death_last_moves.csv", 'a+') as lastMovesFile:
-                lastMovesFile.write(';'.join((str(self.thePlayer.headX), str(self.thePlayer.headY), str(self.thePlayer.headPos))) + "\n")
+                lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
+                lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
             # FOR AI
             self.thePlayer.headX = 150
             self.thePlayer.headY = 150
@@ -134,21 +136,31 @@ class Game():
             self._running = False
         #seedAndKeys = SnakeBot.randy(self.thePlayer)
 
+        #for x in range(100):
+        #    pygame.event.pump()
+        #    self.thePlayer.move()
+        #    keys = pygame.key.get_pressed()
+        #    view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
+            
+        #    self.on_loop()
+        #    self.on_render()
+        #    time.sleep(10/1000)
+        #    self.changePlayerFacing(keys, view)
+
         while (self._running):
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
             view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
-
-            print("Go: " + view)
+            self.thePlayer.numOfMoves += 1
 
             self.on_loop()
             self.on_render()
-            time.sleep(50/1000)
+            time.sleep(10/1000)
             self.changePlayerFacing(keys, view)
             
                 
-            #self.changePlayerFacing(keys, keyAIPressed)
+            #self.changeplayerfacing(keys, keyaipressed)
 
         self.on_cleanup()
 
