@@ -1,5 +1,5 @@
 from Game import Game
-from SnakeBot import SnakeBot
+import SnakeBot
 
 if __name__ == "__main__":
     app = Game()

@@ -1,7 +1,7 @@
 from Apple import Apple
 from SnakeHead import SnakeHead
 from SnakeBody import SnakeBody
-from SnakeBot import SnakeBot
+import SnakeBot
 from pygame.locals import *
 import pygame
 import time
@@ -134,13 +134,13 @@ class Game():
             pygame.event.pump()
             self.thePlayer.move()
             keys = pygame.key.get_pressed()
-            view = SnakeBot.snakeView(self.apple, self.thePlayer, SnakeBody.body)
+            view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
 
             print("Go: " + view)
 
             self.on_loop()
             self.on_render()
-            time.sleep(1/1000)
+            time.sleep(50/1000)
             self.changePlayerFacing(keys, view)
             
                 
