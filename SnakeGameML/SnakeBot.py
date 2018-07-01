@@ -136,7 +136,7 @@ def sigmoid(x):
 def calculateDirectionAngle(suggestedDirection, apple, head, body):
     # Directions = N, S, E, W
     snake = [[head.headX, head.headY], [body[0][0], body[0][1]]]
-    a_vector = numpy.array(snake[0]) - numpy.array(snake[1])
+    a_vector = [0, -20]
     a = a_vector / numpy.linalg.norm(a_vector)
 
     apple = [apple.x, apple.y]
@@ -145,4 +145,27 @@ def calculateDirectionAngle(suggestedDirection, apple, head, body):
 
     direction = math.atan2(a[0] * b[1] - a[1] * b[0], a[0] * b[0] + a[1] * b[1]) / math.pi
 
+    brandonsBiasP = 0.5
+
+    # North-East Quadrant
+    if direction >= 0 and direction < 0.5:
+        suggestedDirection[0] += (1 - (direction / 0.5)) * brandonsBiasP
+        suggestedDirection[2] += (direction / 0.5) * brandonsBiasP
+
+    # South-East Quadrant
+    if direction >= 0.5 and direction < 1:
+        suggestedDirection[2] += (2 - (direction / 0.5)) * brandonsBiasP
+        suggestedDirection[1] += ((direction / 0.5) - 1) * brandonsBiasP
+
+    # South-West Quadrant
+    if direction >= -1 and direction < -0.5:
+        suggestedDirection[1] += -(1 + (direction / 0.5)) * brandonsBiasP
+        suggestedDirection[3] += ((direction / 0.5) + 2) * brandonsBiasP
+
+    # North-West Quadrant
+    if direction >= -0.5 and direction < 0:
+        suggestedDirection[0] += (1 + (direction / 0.5)) * brandonsBiasP
+        suggestedDirection[3] += -(direction / 0.5) * brandonsBiasP
+
+    print(str(direction), suggestedDirection)
     return suggestedDirection
