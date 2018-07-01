@@ -1,11 +1,11 @@
 import random, sys, numpy, math
 from SnakeHead import SnakeHead
+import Game
 
 def snakeView(theapple, thehead, thebody):
     #apple
     #border
     #snake body
-
     N = 0
     S = 0
     E = 0
@@ -23,16 +23,16 @@ def snakeView(theapple, thehead, thebody):
     #W += (thehead.headX/300) *  0.3
     #E += (1 - thehead.headX/300) * 0.3
         
-    if thehead.headX == 10:
+    if thehead.headX == thehead.speed:
         W -= 1.0
     # Heading Rightwards/Eastwards
-    if thehead.headX == 290:
+    if thehead.headX == Game.Game.borderRes[0] - thehead.speed:
         E -= 1.0
     # Heading Southwards
-    if  thehead.headY == 290:
+    if  thehead.headY == Game.Game.borderRes[0] - thehead.speed:
         S -= 1.0
     # Heading Northwards
-    if thehead.headY == 10:
+    if thehead.headY == thehead.speed:
         N -= 1.0
 
     #comparing head to apple
@@ -101,26 +101,26 @@ def snakeView2(theapple, thehead, thebody):
 
 def wallCheck(suggestedDirection, thehead):
 
-    if thehead.headX - 10 == 0:
+    if thehead.headX - thehead.speed == 0:
         suggestedDirection[3] = 0
-    if thehead.headX + 10 == 300:
+    if thehead.headX + thehead.speed == 300:
         suggestedDirection[2] = 0
-    if thehead.headY - 10 == 0:
+    if thehead.headY - thehead.speed == 0:
         suggestedDirection[0] = 0
-    if thehead.headY + 10 == 300:
+    if thehead.headY + thehead.speed == 300:
         suggestedDirection[1] = 0
 
     return suggestedDirection        
 
 def bodyCheck(suggestedDirection, thebody, thehead):
     for i in thebody:
-        if (thehead.headX - 10, thehead.headY) == i:
+        if (thehead.headX - thehead.speed, thehead.headY) == i:
             suggestedDirection[3] = 0
-        if (thehead.headX + 10, thehead.headY) == i:
+        if (thehead.headX + thehead.speed, thehead.headY) == i:
             suggestedDirection[2] = 0
-        if (thehead.headX, thehead.headY - 10) == i:
+        if (thehead.headX, thehead.headY - thehead.speed) == i:
             suggestedDirection[0] = 0
-        if (thehead.headX, thehead.headY + 10) == i:
+        if (thehead.headX, thehead.headY + thehead.speed) == i:
             suggestedDirection[1] = 0
     return suggestedDirection
          
