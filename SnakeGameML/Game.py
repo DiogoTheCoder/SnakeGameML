@@ -92,7 +92,7 @@ class Game():
                     print("DEAD - ATE ITSELF    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
                     with open("death_last_moves.csv", 'a+') as lastMovesFile:
                         lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-                        lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+                        lastMovesFile.write(str(self.thePlayer.numOfMoves) + ";" + str(self.score) + "," + lastSuggestedMove + "\n")
                     self.thePlayer.deathCount += 1
                     # FOR AI
                     self.thePlayer.headX = 100
@@ -112,7 +112,7 @@ class Game():
             print("DEAD - HIT BORDER    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
             with open("death_last_moves.csv", 'a+') as lastMovesFile:
                 lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-                lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+                lastMovesFile.write(str(self.thePlayer.numOfMoves) + ";" + str(self.score) + "," + lastSuggestedMove + "\n")
             self.thePlayer.deathCount += 1
             # FOR AI
             self.thePlayer.headX = 150
