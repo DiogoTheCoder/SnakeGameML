@@ -3,7 +3,7 @@ from SnakeHead import SnakeHead
 class SnakeBody():
     """Provides info on how long the snake is"""
     snakeImage = "snake.png"
-    body = [(100,84), (100,68), (100, 52)]
+    body = [(100,90), (100,80), (100, 70)]
 
 
     #[[aX,aY],[bX,bY],[cX,cY]] = [[SnakeHead.headX,SnakeHead.headY], [aX,aY], [bX,bY]]

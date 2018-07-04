@@ -53,7 +53,7 @@ class Game():
         self._displaySurface.fill((0, 0, 0))
         font = pygame.font.SysFont("comicsansms", 20)
         text = font.render("Score: " + str(self.score), True, (255, 255, 255))
-
+        print(self.apple.x, self.apple.y, self.thePlayer.headX,self.thePlayer.headY)
         #self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
@@ -76,7 +76,7 @@ class Game():
                     # Not dead - not hit border
                     self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
                     #print("apple",self.apple.x, self.apple.y, "player",self.thePlayer.headX, self.thePlayer.headY)
-                    if self.apple.x-self.thePlayer.headX<=10 and self.apple.x-self.thePlayer.headX>=-10 and self.apple.y-self.thePlayer.headY<=10 and self.apple.y-self.thePlayer.headY>=-10:
+                    if (self.apple.x,self.apple.y)==(self.thePlayer.headX,self.thePlayer.headY):
                         self.apple.newLoc(self.thePlayer, SnakeBody.body)
                         self.score+=1
 
@@ -98,7 +98,7 @@ class Game():
                     self.thePlayer.headX = 100
                     self.thePlayer.headY = 100
                     self.thePlayer.headPos = "S"
-                    SnakeBody.body = [(100,84), (100,68), (100, 52)]
+                    SnakeBody.body = [(100,90), (100,80), (100, 70)]
                     
                     with open("scores.csv", 'a+') as scoreFile:
                         scoreFile.write(str(self.score) + "\n")
@@ -118,7 +118,7 @@ class Game():
             self.thePlayer.headX = 150
             self.thePlayer.headY = 150
             self.thePlayer.headPos = "S"
-            SnakeBody.body = [(100,84), (100,68), (100, 52)]
+            SnakeBody.body = [(100,90), (100,80), (100, 70)]
 
             with open("scores.csv", 'a+') as scoreFile:
                 scoreFile.write(str(self.score) + "\n")
