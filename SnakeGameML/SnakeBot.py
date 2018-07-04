@@ -2,7 +2,9 @@ import random, sys, numpy, math
 from SnakeHead import SnakeHead
 import Game
 
-brandonsBiasP = 0.5
+appleB = 0.5
+bodyB = 0.5
+
 
 def snakeView(theapple, thehead, thebody):
     #apple
@@ -73,7 +75,7 @@ def snakeView(theapple, thehead, thebody):
 
 
 def snakeView2(theapple, thehead, thebody):
-    suggestedDirection = [1, 1, 1, 1]
+    suggestedDirection = [1, 1, 1, 1] # Directions = N, S, E, W
     headLoc = (thehead.headX,thehead.headY)
     appleView = (theapple.x,theapple.y)
 
@@ -126,11 +128,33 @@ def bodyCheck(suggestedDirection, thebody, thehead):
         if (thehead.headX, thehead.headY + thehead.speed) == i:
             suggestedDirection[1] = 0
     return suggestedDirection
-         
+
+def uPatternCheck(suggestedDirection, thebody, thehead):
+    shortview = [
+        (thehead.headX-10,thehead.headY-10),(thehead.headX+10,thehead.headY-10),
+        (thehead.headX-10,thehead.headY+10),(thehead.headX+10,thehead.headY+10)
+        ]
+    
+    if thehead.headPos == "N":
+        if (shortview[0] in thebody) and (shortview[1] in thebody):
+            suggestedDirection[0] -= bodyB
+    if thehead.headPos == "S":
+        if (shortview[2] in thebody) and (shortview[3] in thebody):
+            suggestedDirection[1] -= bodyB
+    if thehead.headPos == "E":
+        if (shortview[1] in thebody) and (shortview[3] in thebody):
+            suggestedDirection[2] -= bodyB
+    if thehead.headPos == "W":
+        if (shortview[0] in thebody) and (shortview[2] in thebody):
+            suggestedDirection[3] -= bodyB
+
+    return suggestedDirection
+
 def calculateWeights(suggestedDirection, theapple, thebody, thehead):
     suggestedDirection = wallCheck(suggestedDirection, thehead)
     suggestedDirection = bodyCheck(suggestedDirection, thebody, thehead)
     suggestedDirection = calculateDirectionAngle(suggestedDirection, theapple, thehead, thebody)
+    suggestedDirection = uPatternCheck(suggestedDirection, thebody, thehead)
     return suggestedDirection
 
 def sigmoid(x):
@@ -150,22 +174,22 @@ def calculateDirectionAngle(suggestedDirection, apple, head, body):
 
     # North-East Quadrant
     if direction >= 0 and direction < 0.5:
-        suggestedDirection[0] += (1 - (direction / 0.5)) * brandonsBiasP
-        suggestedDirection[2] += (direction / 0.5) * brandonsBiasP
+        suggestedDirection[0] += (1 - (direction / 0.5)) * appleB
+        suggestedDirection[2] += (direction / 0.5) * appleB
 
     # South-East Quadrant
     if direction >= 0.5 and direction < 1:
-        suggestedDirection[2] += (2 - (direction / 0.5)) * brandonsBiasP
-        suggestedDirection[1] += ((direction / 0.5) - 1) * brandonsBiasP
+        suggestedDirection[2] += (2 - (direction / 0.5)) * appleB
+        suggestedDirection[1] += ((direction / 0.5) - 1) * appleB
 
     # South-West Quadrant
     if direction >= -1 and direction < -0.5:
-        suggestedDirection[1] += -(1 + (direction / 0.5)) * brandonsBiasP
-        suggestedDirection[3] += ((direction / 0.5) + 2) * brandonsBiasP
+        suggestedDirection[1] += -(1 + (direction / 0.5)) * appleB
+        suggestedDirection[3] += ((direction / 0.5) + 2) * appleB
 
     # North-West Quadrant
     if direction >= -0.5 and direction < 0:
-        suggestedDirection[0] += (1 + (direction / 0.5)) * brandonsBiasP
-        suggestedDirection[3] += -(direction / 0.5) * brandonsBiasP
+        suggestedDirection[0] += (1 + (direction / 0.5)) * appleB
+        suggestedDirection[3] += -(direction / 0.5) * appleB
 
     return suggestedDirection
