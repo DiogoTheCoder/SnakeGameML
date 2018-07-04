@@ -159,7 +159,7 @@ class Game():
 
                 self.on_loop()
                 self.on_render()
-                time.sleep(10/1000)
+                time.sleep(100/1000)
                 self.changePlayerFacing(keys, view)
             
             SnakeBot.brandonsBiasP -= 0.1
