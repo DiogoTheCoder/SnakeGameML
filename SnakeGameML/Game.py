@@ -19,7 +19,7 @@ class Game():
     scorelist = []
     #borderImage = "border.png"
 
-    def __init__(self):
+    def __init__(self,cnx):
         self._running = True
         self._displaySurface = None
         self._snakeHeadImageSurface = None
@@ -28,6 +28,7 @@ class Game():
         #self._borderImageSurface = None
         self.thePlayer = SnakeHead()
         self.apple = Apple()
+        self.cnx = cnx
 
     def on_init(self):
         pygame.init()
@@ -90,9 +91,10 @@ class Game():
                     (100 - text.get_width() // 2, 100 - text.get_height() // 2))
                 else:
                     print("DEAD - ATE ITSELF    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-                    with open("death_last_moves.csv", 'a+') as lastMovesFile:
-                        lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-                        lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+                    #with open("death_last_moves.csv", 'a+') as lastMovesFile:
+                    #    lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
+                    #    lastMovesFile.write(','.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+                    self.dies(self.score, self.thePlayer.numOfMoves)
                     self.thePlayer.deathCount += 1
                     # FOR AI
                     self.thePlayer.headX = 100
@@ -110,9 +112,10 @@ class Game():
                     #self.renderToScreen()
         else:
             print("DEAD - HIT BORDER    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-            with open("death_last_moves.csv", 'a+') as lastMovesFile:
-                lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-                lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+            #with open("death_last_moves.csv", 'a+') as lastMovesFile:
+            #    lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
+            #    lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
+            self.dies(self.score, self.thePlayer.numOfMoves)
             self.thePlayer.deathCount += 1
             # FOR AI
             self.thePlayer.headX = 150
@@ -196,3 +199,14 @@ class Game():
 
         except TypeError:
             print("TypeError!")
+
+    def dies(self, numOfMoves, score):
+        cursor = self.cnx.cursor()
+        add_data = ("INSERT INTO scores "
+               "(Moves, Score) "
+               "VALUES (%s, %s)")
+        snake_data = (numOfMoves, score)
+
+        cursor.execute(add_data, snake_data)
+        self.cnx.commit()
+        cursor.close()
