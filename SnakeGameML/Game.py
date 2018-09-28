@@ -7,6 +7,7 @@ import pygame
 import time
 import os
 import csv
+import random
 
 class Game():
     """Runs the main game"""
@@ -54,7 +55,6 @@ class Game():
         self._displaySurface.fill((0, 0, 0))
         font = pygame.font.SysFont("comicsansms", 20)
         text = font.render("Score: " + str(self.score), True, (255, 255, 255))
-        print(self.apple.x, self.apple.y, self.thePlayer.headX,self.thePlayer.headY)
         #self._displaySurface.blit(self._borderImageSurface, (0, 0))
         self._displaySurface.blit(self._snakeHeadImageSurface, (self.thePlayer.headX, self.thePlayer.headY))
 
@@ -68,11 +68,12 @@ class Game():
             newBodyPos.append(SnakeBody.body[i - 1])
 
         SnakeBody.body = newBodyPos
-
-        if (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
+        if (self.thePlayer.numOfMoves >= 500):
+            self.dies(self.score, self.thePlayer.numOfMoves)
+        elif (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
                 #print(self.thePlayer.headX,self.thePlayer.headY,i)
-                
+
                 if (self.thePlayer.headX,self.thePlayer.headY)!=SnakeBody.body[i]:
                     # Not dead - not hit border
                     self._displaySurface.blit(self._appleImageSurface, (self.apple.x, self.apple.y))
@@ -89,47 +90,16 @@ class Game():
                     #self._displaySurface.blit(text, (300, 300))
                     self._displaySurface.blit(text,
                     (100 - text.get_width() // 2, 100 - text.get_height() // 2))
+
+
                 else:
                     print("DEAD - ATE ITSELF    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-                    #with open("death_last_moves.csv", 'a+') as lastMovesFile:
-                    #    lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-                    #    lastMovesFile.write(','.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
                     self.dies(self.score, self.thePlayer.numOfMoves)
-                    self.thePlayer.deathCount += 1
-                    # FOR AI
-                    self.thePlayer.headX = 100
-                    self.thePlayer.headY = 100
-                    self.thePlayer.headPos = "S"
-                    SnakeBody.body = [(100,90), (100,80), (100, 70)]
-                    
-                    with open("scores.csv", 'a+') as scoreFile:
-                        scoreFile.write(str(self.score) + "\n")
-
-                    self.scorelist.append(self.score)
-                    self.score=0
-                    break
-                    #self._running = True
-                    #self.renderToScreen()
         else:
             print("DEAD - HIT BORDER    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-            #with open("death_last_moves.csv", 'a+') as lastMovesFile:
-            #    lastSuggestedMove = ','.join(str(x) for x in self.thePlayer.lastSuggestedMove)
-            #    lastMovesFile.write(';'.join((str(self.thePlayer.numOfMoves), str(self.score), lastSuggestedMove)) + "\n")
             self.dies(self.score, self.thePlayer.numOfMoves)
-            self.thePlayer.deathCount += 1
-            # FOR AI
-            self.thePlayer.headX = 150
-            self.thePlayer.headY = 150
-            self.thePlayer.headPos = "S"
-            SnakeBody.body = [(100,90), (100,80), (100, 70)]
 
-            with open("scores.csv", 'a+') as scoreFile:
-                scoreFile.write(str(self.score) + "\n")
-
-            self.scorelist.append(self.score)
-            self.score=0
-            #self._running = True
-            #self.renderToScreen()
+        
 
         pygame.display.flip()
 
@@ -153,7 +123,9 @@ class Game():
         #    self.changePlayerFacing(keys, view)
 
         for x in range(10):
-            while (self.thePlayer.deathCount < 9 and self._running):
+            SnakeBot.bodyB = float(x / 10)
+
+            while (self.thePlayer.deathCount < 3 and self._running):
                 pygame.event.pump()
                 self.thePlayer.move()
                 keys = pygame.key.get_pressed()
@@ -162,10 +134,10 @@ class Game():
 
                 self.on_loop()
                 self.on_render()
-                time.sleep(10/1000)
+                time.sleep(2/1000)
                 self.changePlayerFacing(keys, view)
             
-            SnakeBot.appleB -= 0.1
+            #SnakeBot.appleB -= 0.1
             self.thePlayer.deathCount = 0
                 
             #self.changeplayerfacing(keys, keyaipressed)
@@ -203,10 +175,22 @@ class Game():
     def dies(self, numOfMoves, score):
         cursor = self.cnx.cursor()
         add_data = ("INSERT INTO scores "
-               "(Moves, Score) "
-               "VALUES (%s, %s)")
-        snake_data = (numOfMoves, score)
+               "(Moves, Score, appleB, bodyB) "
+               "VALUES (%s, %s, %s, %s)")
+        snake_data = (numOfMoves, score, SnakeBot.appleB, float(SnakeBot.bodyB))
 
         cursor.execute(add_data, snake_data)
         self.cnx.commit()
         cursor.close()
+
+        self.thePlayer.deathCount += 1
+        
+        # FOR AI
+        self.thePlayer.headX = 100
+        self.thePlayer.headY = 100
+        self.thePlayer.headPos = "S"
+        SnakeBody.body = [(100,90), (100,80), (100, 70)]
+        self.thePlayer.numOfMoves = 0
+        print(SnakeBot.bodyB)
+
+    

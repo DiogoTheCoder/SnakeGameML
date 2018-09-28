@@ -2,7 +2,7 @@ import random, sys, numpy, math
 from SnakeHead import SnakeHead
 import Game
 
-appleB = 0.5
+appleB = 0
 bodyB = 0.5
 
 
