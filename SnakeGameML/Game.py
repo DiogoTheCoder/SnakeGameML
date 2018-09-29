@@ -69,7 +69,7 @@ class Game():
 
         SnakeBody.body = newBodyPos
         if (self.thePlayer.numOfMoves >= 500):
-            self.dies(self.score, self.thePlayer.numOfMoves)
+            self.dies()
         elif (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
                 #print(self.thePlayer.headX,self.thePlayer.headY,i)
@@ -172,12 +172,12 @@ class Game():
         except TypeError:
             print("TypeError!")
 
-    def dies(self, numOfMoves, score):
+    def dies(self):
         cursor = self.cnx.cursor()
         add_data = ("INSERT INTO scores "
                "(num_of_moves, score, apple_b, body_b) "
                "VALUES (%s, %s, %s, %s)")
-        snake_data = (numOfMoves, score, SnakeBot.appleB, float(SnakeBot.bodyB))
+        snake_data = (self.thePlayer.numOfMoves, self.score, SnakeBot.appleB, float(SnakeBot.bodyB))
 
         cursor.execute(add_data, snake_data)
         self.cnx.commit()
@@ -191,6 +191,4 @@ class Game():
         self.thePlayer.headPos = "S"
         SnakeBody.body = [(100,90), (100,80), (100, 70)]
         self.thePlayer.numOfMoves = 0
-        print(SnakeBot.bodyB)
-
-    
+        self.score = 0
