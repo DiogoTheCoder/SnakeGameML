@@ -1,0 +1,5 @@
+mysql-connector==2.1.6
+numpy==1.15.2
+pip==10.0.1
+pygame==1.9.4
+setuptools==39.0.1
