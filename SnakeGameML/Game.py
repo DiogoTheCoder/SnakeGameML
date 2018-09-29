@@ -175,7 +175,7 @@ class Game():
     def dies(self, numOfMoves, score):
         cursor = self.cnx.cursor()
         add_data = ("INSERT INTO scores "
-               "(Moves, Score, appleB, bodyB) "
+               "(num_of_moves, score, apple_b, body_b) "
                "VALUES (%s, %s, %s, %s)")
         snake_data = (numOfMoves, score, SnakeBot.appleB, float(SnakeBot.bodyB))
 
