@@ -70,7 +70,7 @@ class Game():
         SnakeBody.body = newBodyPos
         if (self.thePlayer.numOfMoves >= 500):
             self.dies()
-        elif (self.thePlayer.headX > 0 and self.thePlayer.headX < self.borderRes[0]) and (self.thePlayer.headY > 0 and self.thePlayer.headY < self.borderRes[1]):
+        elif (self.thePlayer.headX >= 0 and self.thePlayer.headX <= self.borderRes[0]) and (self.thePlayer.headY >= 0 and self.thePlayer.headY <= self.borderRes[1]):
             for i in range(1,len(SnakeBody.body)):
                 #print(self.thePlayer.headX,self.thePlayer.headY,i)
 
@@ -94,13 +94,12 @@ class Game():
 
                 else:
                     print("DEAD - ATE ITSELF    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-                    self.dies(self.score, self.thePlayer.numOfMoves)
+                    self.dies()
+                    break
         else:
             print("DEAD - HIT BORDER    SCORE - " + str(self.score) + "    BRANDON'S BIAS P - " + str(SnakeBot.appleB))
-            self.dies(self.score, self.thePlayer.numOfMoves)
-
-        
-
+            self.dies()
+            
         pygame.display.flip()
 
     def on_cleanup(self):
@@ -122,7 +121,7 @@ class Game():
         #    time.sleep(10/1000)
         #    self.changePlayerFacing(keys, view)
 
-        for x in range(10):
+        for x in range(11):
             SnakeBot.bodyB = float(x / 10)
 
             while (self.thePlayer.deathCount < 3 and self._running):
@@ -130,12 +129,13 @@ class Game():
                 self.thePlayer.move()
                 keys = pygame.key.get_pressed()
                 view = SnakeBot.snakeView2(self.apple, self.thePlayer, SnakeBody.body)
+                
+                self.changePlayerFacing(keys, view)
                 self.thePlayer.numOfMoves += 1
-
                 self.on_loop()
                 self.on_render()
-                time.sleep(2/1000)
-                self.changePlayerFacing(keys, view)
+                time.sleep(100/1000)
+                
             
             #SnakeBot.appleB -= 0.1
             self.thePlayer.deathCount = 0
@@ -186,9 +186,9 @@ class Game():
         self.thePlayer.deathCount += 1
         
         # FOR AI
-        self.thePlayer.headX = 100
-        self.thePlayer.headY = 100
+        self.thePlayer.headX = random.randint(5, 30)*10
+        self.thePlayer.headY = random.randint(5, 30)*10
         self.thePlayer.headPos = "S"
-        SnakeBody.body = [(100,90), (100,80), (100, 70)]
+        SnakeBody.body = [(self.thePlayer.headX,self.thePlayer.headY-10), (self.thePlayer.headX,self.thePlayer.headY-20), (self.thePlayer.headX, self.thePlayer.headY-30)]
         self.thePlayer.numOfMoves = 0
         self.score = 0
