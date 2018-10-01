@@ -2,7 +2,7 @@ import random, sys, numpy, math
 from SnakeHead import SnakeHead
 import Game
 
-appleB = 0
+appleB = 0.0
 bodyB = 0.5
 
 
@@ -94,15 +94,26 @@ def snakeView2(theapple, thehead, thebody):
 
 
     thehead.lastSuggestedMove = suggestedDirection
+    direction = duplicateCheck(suggestedDirection.index(max(suggestedDirection)), suggestedDirection)
 
-    if suggestedDirection.index(max(suggestedDirection)) == 0:
+    if direction == 0:
         return "U"
-    elif suggestedDirection.index(max(suggestedDirection)) == 1:
+    elif direction == 1:
         return "D"
-    elif suggestedDirection.index(max(suggestedDirection)) == 2:
+    elif direction == 2:
         return "R"
-    elif suggestedDirection.index(max(suggestedDirection)) == 3:
+    elif direction == 3:
         return "L"
+
+def duplicateCheck(valueIdx, array):
+    if (array.count(valueIdx) > 1):
+        choice = random.randrange(len(array))
+        if array[choice] == valueIdx:
+            return choice
+        else: 
+            return duplicateCheck(valueIdx, array)
+    else:
+        return valueIdx
 
 def wallCheck(suggestedDirection, thehead):
 
@@ -120,13 +131,13 @@ def wallCheck(suggestedDirection, thehead):
 def bodyCheck(suggestedDirection, thebody, thehead):
     for i in thebody:
         if (thehead.headX - thehead.speed, thehead.headY) == i:
-            suggestedDirection[3] = 0
+            suggestedDirection[3] -= 1
         if (thehead.headX + thehead.speed, thehead.headY) == i:
-            suggestedDirection[2] = 0
+            suggestedDirection[2] -= 1
         if (thehead.headX, thehead.headY - thehead.speed) == i:
-            suggestedDirection[0] = 0
+            suggestedDirection[0] -= 1
         if (thehead.headX, thehead.headY + thehead.speed) == i:
-            suggestedDirection[1] = 0
+            suggestedDirection[1] -= 1
     return suggestedDirection
 
 def uPatternCheck(suggestedDirection, thebody, thehead):
