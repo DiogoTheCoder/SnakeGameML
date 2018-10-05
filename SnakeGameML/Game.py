@@ -20,7 +20,7 @@ class Game():
     scorelist = []
     #borderImage = "border.png"
 
-    def __init__(self,cnx):
+    def __init__(self, cnx=None):
         self._running = True
         self._displaySurface = None
         self._snakeHeadImageSurface = None
@@ -173,15 +173,16 @@ class Game():
             print("TypeError!")
 
     def dies(self):
-        cursor = self.cnx.cursor()
-        add_data = ("INSERT INTO scores "
-               "(num_of_moves, score, apple_b, body_b) "
-               "VALUES (%s, %s, %s, %s)")
-        snake_data = (self.thePlayer.numOfMoves, self.score, SnakeBot.appleB, float(SnakeBot.bodyB))
+        if self.cnx != None:
+            cursor = self.cnx.cursor()
+            add_data = ("INSERT INTO scores "
+                   "(num_of_moves, score, apple_b, body_b) "
+                   "VALUES (%s, %s, %s, %s)")
+            snake_data = (self.thePlayer.numOfMoves, self.score, SnakeBot.appleB, float(SnakeBot.bodyB))
 
-        cursor.execute(add_data, snake_data)
-        self.cnx.commit()
-        cursor.close()
+            cursor.execute(add_data, snake_data)
+            self.cnx.commit()
+            cursor.close()
 
         self.thePlayer.deathCount += 1
         
