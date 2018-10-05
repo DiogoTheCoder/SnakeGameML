@@ -1,7 +1,9 @@
+import random
+
 class SnakeHead:
     """Represents the head of the Snake"""
-    headX = 150
-    headY = 150
+    headX = random.randint(5, 30)*10
+    headY = random.randint(5, 30)*10
     headPos = "S"
     snakeImage = "snake_head.png"
     speed = 10
