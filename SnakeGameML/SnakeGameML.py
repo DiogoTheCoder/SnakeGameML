@@ -2,9 +2,12 @@ from Game import Game
 import SnakeBot
 import mysql.connector
 from multiprocessing import Process
+from google.cloud import error_reporting, storage
 import os
 
 def runGame():
+    client = error_reporting.Client()
+
     try:
         cnx = mysql.connector.connect(user='root', password='admin',
                                 host='104.199.13.110',
@@ -16,6 +19,7 @@ def runGame():
 
     except mysql.connector.Error as err:
         print("Something went wrong: {}".format(err))
+        client.report_exception()
         app = Game()
         app.on_execute()
 
