@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /SnakeGameML/scores.csv
 /SnakeGameML/death_last_moves.csv
+/SnakeGameML/error-reporter-cred.json

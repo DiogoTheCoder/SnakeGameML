@@ -2,26 +2,29 @@ from Game import Game
 import SnakeBot
 import mysql.connector
 from multiprocessing import Process
-from google.cloud import error_reporting, storage
+from google.cloud import error_reporting
 import os
+import time
 
 def runGame():
-    client = error_reporting.Client()
-
+    # This JSON file is provided by DiogoTheCoder
+    client = error_reporting.Client.from_service_account_json('error-reporter-cred.json')
     try:
         cnx = mysql.connector.connect(user='root', password='admin',
                                 host='104.199.13.110',
-                                database='snakegame', connect_timeout=10)
-        app = Game(cnx)
-        app.on_execute()
-
-        cnx.close()
+                                database='snakegame', connect_timeout=2)
 
     except mysql.connector.Error as err:
+        cnx = None
         print("Something went wrong: {}".format(err))
         client.report_exception()
-        app = Game()
+
+    finally:
+        app = Game(cnx)
         app.on_execute()
+    
+        if cnx != None:
+            cnx.close()
 
 if __name__ == "__main__":
     # Multiprocessing
