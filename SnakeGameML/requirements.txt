@@ -12,7 +12,7 @@ google-resumable-media==0.3.1
 grpcio==1.15.0
 idna==2.7
 mysql-connector==2.1.6
-numpy==1.15.2
+numpy==1.22.0
 pip==10.0.1
 protobuf==3.6.1
 pyasn1==0.4.4
